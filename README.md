@@ -1,6 +1,6 @@
 # Phaser 3 Webpack Project Template
 
-A Phaser 3 Project Template
+This is a clone of photonstorm/phaser3-project-template
 
 ### Requirements
 
