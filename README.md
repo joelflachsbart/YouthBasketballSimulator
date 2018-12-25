@@ -1,6 +1,4 @@
-# Phaser 3 Webpack Project Template
-
-This is a clone of photonstorm/phaser3-project-template
+# Youth Basketball Simulator
 
 ### Requirements
 
