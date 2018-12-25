@@ -15,9 +15,10 @@
   "license": "MIT",
   "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
   "devDependencies": {
-    "webpack-dev-server": "^3.1.10",
-    "webpack": "^3.4.1",
-    "raw-loader": "^0.5.1"
+    "raw-loader": "^0.5.1",
+    "webpack": "^4.28.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
     "phaser": "^3.3.0"
