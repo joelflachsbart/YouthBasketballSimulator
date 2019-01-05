@@ -4,8 +4,8 @@
   "description": "Youth Basketball Simulator Game",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "npm run build && webpack-dev-server --port=8000"
+    "build": "webpack --config webpack.prod.js",
+    "dev": "webpack-dev-server --config webpack.dev.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
     "raw-loader": "^0.5.1",
     "webpack": "^4.28.2",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10"
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "phaser": "^3.3.0"
