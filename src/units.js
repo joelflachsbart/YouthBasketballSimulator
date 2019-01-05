@@ -1,6 +1,6 @@
 export default Phaser.Class({
     Extends: Phaser.GameObjects.Sprite,
- 
+
     initialize:
  
     function Unit(scene, x, y, texture, frame, type, hp, damage) {
@@ -11,6 +11,9 @@ export default Phaser.Class({
     },
     attack: function(target) {
         target.takeDamage(this.damage);      
+    },
+    encourage: function (target) {
+
     },
     takeDamage: function(damage) {
         this.hp -= damage;        

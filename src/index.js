@@ -5,6 +5,7 @@ import HeroesMenu from './HeroesMenu.js';
 import ActionsMenu from './ActionsMenu.js';
 import EnemiesMenu from './EnemiesMenu.js';
 import Message from './message.js';
+import units from '../src/units.js';
 
 // var BootScene = new Phaser.Class({
 
@@ -189,8 +190,8 @@ var BootScene = new Phaser.Class({
     {
         // load resources
         this.load.spritesheet('player', 'assets/characters.png', { frameWidth: 16, frameHeight: 16 });
-        this.load.image('dragonblue', 'assets/dragon_blue.png');
-        this.load.image('dragonorrange', 'assets/dragon_red.png');
+        this.load.image('kid_player1', 'assets/basketball_kid.png');
+        this.load.image('kid_player2', 'assets/basketball_kid.png');
     },
  
     create: function ()
@@ -201,10 +202,20 @@ var BootScene = new Phaser.Class({
 
 let Enemy = new Phaser.Class({
     Extends: unitsClass,
+    playerReactions: [
+        "dribbles the ball out of bounds",
+        "chucks a wild shot",
+        "stops and stares at the crowd",
+        "trips on an untied shoelace"
+        ],
 
     initialize:
     function Enemy(scene, x, y, texture, frame, type, hp, damage) {
         unitsClass.call(this, scene, x, y, texture, frame, type, hp, damage);
+
+        this.flipX = true;
+
+        this.setScale(2);
     }
 });
 
@@ -237,24 +248,24 @@ var BattleScene = new Phaser.Class({
         // change the background to green
         this.cameras.main.setBackgroundColor('rgba(0, 200, 0, 0.5)');
         
-        // player character - warrior
-        var warrior = new PlayerCharacter(this, 250, 30, 'player', 10, 'Warrior', 100, 20);        
-        this.add.existing(warrior);
+        // player character - coach
+        var coach = new PlayerCharacter(this, 250, 30, 'player', 10, 'Coach', 100, 20);        
+        this.add.existing(coach);
         
         // player character - mage
-        var mage = new PlayerCharacter(this, 250, 80, 'player', 13, 'Mage', 80, 8);
-        this.add.existing(mage);            
+        // var mage = new PlayerCharacter(this, 250, 80, 'player', 13, 'Mage', 80, 8);
+        // this.add.existing(mage);            
         
-        var dragonblue = new Enemy(this, 50, 30, 'dragonblue', null, 'Dragon', 50, 3);
-        this.add.existing(dragonblue);
+        var kid_player1 = new Enemy(this, 50, 30, 'kid_player1', null, 'Billy', 50, 3);
+        this.add.existing(kid_player1);
         
-        var dragonOrange = new Enemy(this, 50, 80, 'dragonorrange', null,'Dragon2', 50, 3);
-        this.add.existing(dragonOrange);
+        var kid_player2 = new Enemy(this, 50, 80, 'kid_player2', null,'Jerry', 50, 3);
+        this.add.existing(kid_player2);
         
         // array with heroes
-        this.heroes = [ warrior, mage ];
+        this.heroes = [ coach ];
         // array with enemies
-        this.enemies = [ dragonblue, dragonOrange ];
+        this.enemies = [ kid_player1, kid_player2 ];
         // array with both parties, who will attack
         this.units = this.heroes.concat(this.enemies);
         
@@ -279,8 +290,12 @@ var BattleScene = new Phaser.Class({
                 // pick random hero
                 var r = Math.floor(Math.random() * this.heroes.length);
                 // call the enemy's attack function 
-                this.units[this.index].attack(this.heroes[r]);
-                this.uiScene.message.showMessage(`The ${this.units[this.index].type} attacks ${this.units[r].type} for ${this.units[this.index].damage}`);      
+                
+                //this.units[this.index].attack(this.heroes[r]);
+                console.warn(unitsClass);
+                var optionIndex = Math.floor(Math.random() * this.units[this.index].playerReactions.length);
+                this.uiScene.message.showMessage(`${this.units[this.index].type} ${this.units[this.index].playerReactions[optionIndex]}`)
+                //this.uiScene.message.showMessage(`${this.units[this.index].type} attacks ${this.units[r].type} for ${this.units[this.index].damage}`);      
                 // add timer for the next turn, so will have smooth gameplay
                 this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });
             }
@@ -288,9 +303,9 @@ var BattleScene = new Phaser.Class({
     },
     receivePlayerSelection: function(action, target) {
         let character = this.units[this.index];
-        if(action == 'attack') {        
-            this.uiScene.message.showMessage(`The ${character.type} attacks ${this.enemies[target].type} for ${character.damage}`);    
-            this.units[this.index].attack(this.enemies[target]);              
+        if(action == 'encourage') {        
+            this.uiScene.message.showMessage(`${character.type} attempts to encourage ${this.enemies[target].type}`);    
+            this.units[this.index].encourage(this.enemies[target]);              
         }
         this.time.addEvent({ delay: 3000, callback: this.nextTurn, callbackScope: this });        
     },
@@ -383,7 +398,7 @@ var UIScene = new Phaser.Class({
         this.actionsMenu.deselect();
         this.enemiesMenu.deselect();
         this.currentMenu = null;
-        this.battleScene.receivePlayerSelection('attack', index);
+        this.battleScene.receivePlayerSelection('encourage', index);
     },
 });
  

@@ -7,7 +7,7 @@ export default Phaser.Class({
             
     function ActionsMenu(x, y, scene) {
         Menu.call(this, x, y, scene);   
-        this.addMenuItem('Attack');
+        this.addMenuItem('Encourage');
     },
     confirm: function() {      
         this.scene.events.emit('SelectEnemies');        
